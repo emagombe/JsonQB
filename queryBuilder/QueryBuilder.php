@@ -4,6 +4,7 @@ namespace queryBuilder;
 
 use security\Security;
 use queryBuilder\query\Insert;
+use queryBuilder\query\Update;
 
 class QueryBuilder {
 
@@ -12,27 +13,7 @@ class QueryBuilder {
 	}
 
 	public static function Update($table, $request) {
-		$sql = "UPDATE `$table` SET ";
-		foreach ($request['value'] as $key => $value) {
-			$key = Security::escape_string($key);
-			$value = Security::escape_string($value);
-
-			$sql = $sql."$key = '$value', ";
-		}
-		$sql = rtrim($sql,", ");
-		if(isset($request["where"])) {
-			$sql = $sql." WHERE ";
-			foreach ($request["where"] as $key => $value) {
-				$key = Security::escape_string($key);
-				$value = Security::escape_string($value);
-				$sql = $sql."$key = '$value' AND ";
-			}
-			$sql = rtrim($sql,"AND ");
-			$sql = $sql.";";
-			return $sql;
-		}
-		$sql = $sql.";";
-		# return new QueryBuilderHelper($sql);
+		return new Update($table, $request);
 	}
 
 
