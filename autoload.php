@@ -19,8 +19,12 @@ $qb = QueryBuilder::Update('user', [
 		'username' => 'emagombe'
 	], 
 	'where' => [
-		'id' => 1,
-		'status' => 0
+		[
+			'operator' => 'like',
+			'columns' => [
+				'status' => 0
+			]
+		]
 	]
 ])->sql();
 print_r($qb);

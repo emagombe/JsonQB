@@ -4,8 +4,9 @@ namespace queryBuilder\query;
 
 use database\Database;
 use security\Security;
+use queryBuilder\query\Where;
 
-class UPDATE {
+class Update {
 
 	private $sql = "";
 
@@ -19,16 +20,10 @@ class UPDATE {
 		}
 		$sql = rtrim($sql, ", ");
 		if(isset($request["where"])) {
-			$sql = $sql." WHERE ";
-			foreach ($request["where"] as $key => $value) {
-				$key = Security::escape($key);
-				$value = Security::escape($value);
-				$sql = $sql."$key = '$value' AND ";
-			}
-			$sql = rtrim($sql,"AND ");
-			$sql = $sql.";";
-			$this->sql = $sql;
-			return $this;
+
+			/* Attaching where condition from Where class */
+			$where = new Where($request["where"]);
+			$sql .= $where->sql();
 		}
 		$sql = $sql.";";
 		$this->sql = $sql;

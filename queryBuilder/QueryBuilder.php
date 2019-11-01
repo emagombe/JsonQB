@@ -139,26 +139,26 @@ class QueryBuilder {
 				if((isset($settings['in']) or isset($settings['not in'])) and isset($settings['column'])) {
 					$sql .= (isset($settings['in'])) ? Security::escape_string($settings['column'])." IN (".rtrim(Security::escape_string($settings['in']), ";").")" : "";
 					$sql .= (isset($settings['not in'])) ? Security::escape_string($settings['column'])." IN (".rtrim(Security::escape_string($settings['in']), ";").")" : "";
-				} else
-
-				/* Attaching between */
-				if((isset($settings['between']) or isset($settings['not between'])) and isset($settings['column'])) {
-					$between = [];
-					$column = Security::escape_string($settings['column']);
-					$between[0] = Security::escape_string((isset($settings['not between'])) ? $settings['not between'][0] : $settings['between'][0]);
-					$between[1] = Security::escape_string((isset($settings['not between'])) ? $settings['not between'][1] : $settings['between'][1]);
-
-					$sql .= (Helper::contains($column, ".")) ? "`".explode('.', $column)[0]."`"."."."`".explode('.', $column)[1]."` " : "`$column` ";
-					$sql .= ((isset($settings['not between'])) ? "NOT BETWEEN" : "BETWEEN")." ".$between[0]." AND ".$between[1]." AND ";
 				} else {
+					/* Attaching between */
+					if((isset($settings['between']) or isset($settings['not between'])) and isset($settings['column'])) {
+						$between = [];
+						$column = Security::escape_string($settings['column']);
+						$between[0] = Security::escape_string((isset($settings['not between'])) ? $settings['not between'][0] : $settings['between'][0]);
+						$between[1] = Security::escape_string((isset($settings['not between'])) ? $settings['not between'][1] : $settings['between'][1]);
 
-					/* Setting The columns of the where clause */
-					foreach ($settings['columns'] as $key => $value) {
-						$key = Security::escape_string($key);
-						$value = Security::escape_string($value);
+						$sql .= (Helper::contains($column, ".")) ? "`".explode('.', $column)[0]."`"."."."`".explode('.', $column)[1]."` " : "`$column` ";
+						$sql .= ((isset($settings['not between'])) ? "NOT BETWEEN" : "BETWEEN")." ".$between[0]." AND ".$between[1]." AND ";
+					} else {
 
-						$sql .= (Helper::contains($key, ".") and !Helper::contains($key, "(")) ? "`".explode('.', $key)[0]."`"."."."`".explode('.', $key)[1]."`" : "`$key`";
-						$sql .= (Helper::contains($value, ".") and !Helper::contains($value, "(")) ? " $operator `".explode('.', $value)[0]."`"."."."`".explode('.', $value)[1]."` AND " : " $operator $value AND ";
+						/* Setting The columns of the where clause */
+						foreach ($settings['columns'] as $key => $value) {
+							$key = Security::escape_string($key);
+							$value = Security::escape_string($value);
+
+							$sql .= (Helper::contains($key, ".") and !Helper::contains($key, "(")) ? "`".explode('.', $key)[0]."`"."."."`".explode('.', $key)[1]."`" : "`$key`";
+							$sql .= (Helper::contains($value, ".") and !Helper::contains($value, "(")) ? " $operator `".explode('.', $value)[0]."`"."."."`".explode('.', $value)[1]."` AND " : " $operator $value AND ";
+						}
 					}
 				}
 			}
