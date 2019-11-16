@@ -1,0 +1,11 @@
+{
+    "name": "emagombe/query-builder",
+    "type": "library",
+    "authors": [
+        {
+            "name": "emagombe",
+            "email": "edson.patricio.39@gmail.com"
+        }
+    ],
+    "require": {}
+}
