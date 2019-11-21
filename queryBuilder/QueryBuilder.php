@@ -5,6 +5,7 @@ namespace queryBuilder;
 use security\Security;
 use queryBuilder\query\Insert;
 use queryBuilder\query\Update;
+use queryBuilder\query\Delete;
 
 class QueryBuilder {
 
@@ -16,28 +17,8 @@ class QueryBuilder {
 		return new Update($table, $request);
 	}
 
-
 	public static function Delete($table, $request) {
-		$table = Security::escape_string($table);
-
-		$sql = "DELETE FROM `$table` ";
-
-		if(isset($request["where"])) {
-			$sql = $sql." WHERE ";
-			foreach ($request["where"] as $key => $value) {
-				$key = Security::escape_string($key);
-				$value = Security::escape_string($value);
-				
-				$sql = $sql."`$key`='$value' AND ";
-			}
-		} else {
-			$sql = rtrim($sql," ");
-			$sql = $sql.";";
-			return $sql;
-		}
-		$sql = rtrim($sql,"AND ");
-		$sql = $sql.";";
-		return new QueryBuilderHelper($sql);
+		return new Delete($table, $request);
 	}
 
 	// Delete all data from table and reset the auto increments
