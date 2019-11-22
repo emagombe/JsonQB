@@ -4,6 +4,7 @@
 namespace database;
 
 use database\Settings;
+use PDO;
 
 class Database
 {
@@ -13,22 +14,24 @@ class Database
 	}
 
 	public function conn() {
-		$host = $this->read_conf()->host;
-		$database = $this->read_conf()->database;
-		$port = $this->read_conf()->port;
-		$charset = $this->read_conf()->charset;
-		$username = $this->read_conf()->username;
-		$password = $this->read_conf()->password;
+		$config = $this->read_conf();
+
+		$host = $config->host;
+		$database = $config->database;
+		$port = $config->port;
+		$charset = $config->charset;
+		$username = $config->username;
+		$password = $config->password;
 
 		try {
-			return new \PDO("mysql:host=$host;dbname=$database;port=$port;charset=$charset", $username, $password);
+			return new PDO("mysql:host=$host;dbname=$database;port=$port;charset=$charset", $username, $password);
 		} catch(Exception $ex) {
 			throw new Exception($ex->getMessage());
 		}
 	}
 
 	private function read_conf() {
-		$content = file_get_contents("app.conf");
+		$content = file_get_contents(dirname(__FILE__)."/../app.conf");
 		$content = explode("\n", $content);
 		$config = [];
 		foreach($content as $item) {
