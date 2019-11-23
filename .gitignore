@@ -19,6 +19,6 @@ Homestead.json
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
 
-# 
+# JsonQB
 app.conf
 composer.lock
