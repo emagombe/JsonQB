@@ -264,16 +264,6 @@ $sql = JQB::Select(array(
 	"columns" => array("*"),
 	"from" => array("user", "user_type"),
 	'join' => array(
-		'INNER' => array(
-			'table' => 'warehouse',
-			'on' => array(
-				array(
-					'columns' => array(
-						'warehouse.user_created' => 'user.id'
-					),
-				)
-			),
-		),
 		'LEFT' => array(
 			'table' => 'bank',
 			'on' => array(
