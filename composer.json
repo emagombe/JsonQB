@@ -1,5 +1,5 @@
 {
-    "name": "emagombe/JsonQB",
+    "name": "emagombe/json-qb",
     "type": "library",
     "description": "Generate SQL query from JSON request",
     "keywords": [
