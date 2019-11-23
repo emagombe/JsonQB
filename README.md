@@ -228,5 +228,5 @@ print_r($sql);
 ```
 Returns
 ```SQL
-SELECT user.*, user_type.* FROM user, user_type WHERE user.id = '1';
+SELECT * FROM user, user_type WHERE user.id like '1' ORDER BY user.id asc
 ```
