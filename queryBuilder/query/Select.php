@@ -90,6 +90,31 @@ class Select {
 			$where = new Where($request["where"]);
 			$sql .= $where->sql();
 		}
+
+		// Insert group by creteria to the select query
+		if(isset($request['group'])) {
+			if(isset($request['group']['by'])) {
+				$by = Security::escape($request['group']['by']);
+				$by = "$by";
+				$sql = $sql." GROUP BY ";
+				$sql .= $by;
+			}
+		}
+
+		// Insert order by creteria to the select query
+		if(isset($request['order'])) {
+			$order = Security::escape($request['order']['order']);
+
+			if(isset($request['order']['by'])) {
+
+				$by = Security::escape($request['order']['by']);
+				$by = "$by";
+
+				$sql = $sql." ORDER BY ";
+				$sql .= $by." ".((isset($request["order"]["order"])) ? $order : "ASC");
+			}
+		}
+
 		$this->sql = $sql;
 		return $this;
 	}
