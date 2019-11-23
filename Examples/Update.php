@@ -6,7 +6,7 @@ use queryBuilder\JsonQB as JQB;
 
 $sql = JQB::Update('user', [
 	'value' => array(
-		'username' => 'emagombe'
+		'username' => 'example'
 	), 
 	'where' => array(
 		array(
@@ -18,4 +18,4 @@ $sql = JQB::Update('user', [
 print_r($sql);
 
 # Returns
-# UPDATE user SET username = 'emagombe' WHERE id = '1';
+# UPDATE user SET username = 'example' WHERE id = '1';

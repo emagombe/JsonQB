@@ -71,3 +71,25 @@ Returns
 ```SQL
 INSERT INTO user(email, password) VALUES ('example@example.net', '123');
 ```
+
+### Update
+```php
+use queryBuilder\JsonQB as JQB;
+
+$sql = JQB::Update('user', [
+	'value' => array(
+		'username' => 'example'
+	), 
+	'where' => array(
+		array(
+			'columns' => array('user.id' => 1)
+		)
+	)
+])->sql();
+
+print_r($sql);
+```
+Returns
+```SQL
+UPDATE user SET username = 'example' WHERE id = '1';
+```
