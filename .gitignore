@@ -20,5 +20,5 @@ Homestead.json
 .rocketeer/
 
 # JsonQB
-# app.conf
+app.conf
 composer.lock
