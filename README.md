@@ -230,3 +230,117 @@ Returns
 ```SQL
 SELECT * FROM user, user_type WHERE user.id like '1' ORDER BY user.id asc
 ```
+
+#### Order BY
+```php
+use queryBuilder\JsonQB as JQB;
+
+$sql = JQB::Select(array(
+	"columns" => array("*"),
+	"from" => array("user", "user_type"),
+	"where" => array(
+		array(
+			"operator" => "like", # It may be =, !=, <>, >= or <=
+			"columns" => array(
+				"user.id" => "1"
+			)
+		),
+	),
+	"group" => array('by' => 'user.id'),
+))->sql();
+
+print_r($sql);
+```
+Returns
+```SQL
+SELECT * FROM user, user_type WHERE user.id like '1' GROUP BY user.id
+```
+
+#### Join
+```php
+use queryBuilder\JsonQB as JQB;
+
+$sql = JQB::Select(array(
+	"columns" => array("*"),
+	"from" => array("user", "user_type"),
+	'join' => array(
+		'INNER' => array(
+			'table' => 'warehouse',
+			'on' => array(
+				array(
+					'columns' => array(
+						'warehouse.user_created' => 'user.id'
+					),
+				)
+			),
+		),
+		'LEFT' => array(
+			'table' => 'bank',
+			'on' => array(
+				array(
+					'columns' => array(
+						'bank.user_created' => 'user.id'
+					),
+				),
+			),
+		),
+		'INNER' => array(
+			'table' => 'cash',
+			'on' => array(
+				array(
+					'operator' => 'like',
+					'columns' => array(
+						'cash.user_created' => 'user.id'
+					),
+				)
+			),
+		),
+	),
+	"where" => array(
+		array(
+			"operator" => "=", # It may be !=, like, <>, >= or <=
+			"columns" => array(
+				"user.id" => "1"
+			)
+		),
+	)
+))->sql();
+
+print_r($sql);
+```
+Returns
+```SQL
+SELECT * FROM user, user_type INNER JOIN `cash` ON cash.user_created like user.id LEFT JOIN `bank` ON bank.user_created = user.id WHERE user.id = '1'
+```
+
+#### IN
+```php
+use queryBuilder\JsonQB as JQB;
+
+$sql = JQB::Select(array(
+	"columns" => array("*"),
+	"from" => array("user", "user_type"),
+	"where" => array(
+		array(
+			"operator" => "like", # It may be =, !=, <>, >= or <=
+			"columns" => array(
+				"user.id" => "1"
+			)
+		),
+		array(
+			'column' => 'user.id',
+			'in' => JQB::Select(array(
+				'columns' => ['user.id'],
+				'from' => ['user']
+			))->sql(),
+		)
+	),
+	"group" => array('by' => 'user.id'),
+))->sql();
+
+print_r($sql);
+```
+Returns
+```SQL
+SELECT * FROM user, user_type WHERE user.id like '1' AND user.id IN (SELECT user.id FROM user) GROUP BY user.id
+```
