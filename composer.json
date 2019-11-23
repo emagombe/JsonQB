@@ -1,11 +1,20 @@
 {
-    "name": "emagombe/query-builder",
+    "name": "emagombe/JsonQB",
     "type": "library",
+    "description": "Generate SQL query from JSON request",
+    "keywords": [
+        "Query builder",
+        "JsonQB",
+        "Query Generator"
+    ],
+    "license": "MIT",
     "authors": [
         {
             "name": "emagombe",
             "email": "edson.patricio.39@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+    	"php": "^7.0",
+    }
 }
