@@ -15,7 +15,7 @@
         }
     ],
     "autoload": {
-        "psr-4": { "": "" }
+        "psr-4": { "queryBuilder\\": "queryBuilder/" }
     },
     "require": {
     	"php": "^7.0"
