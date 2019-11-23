@@ -116,3 +116,16 @@ Returns
 ```SQL
 DELETE FROM user WHERE id = '1' AND user.id BETWEEN 1 AND 7;
 ```
+
+### Truncate
+```php
+use queryBuilder\JsonQB as JQB;
+
+$sql = JQB::Truncate('user')->sql();
+
+print_r($sql);
+```
+Returns
+```SQL
+TRUNCATE user;
+```
