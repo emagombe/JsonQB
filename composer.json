@@ -15,7 +15,11 @@
         }
     ],
     "autoload": {
-        "psr-4": { "queryBuilder\\": "queryBuilder/" }
+        "psr-4": {
+            "database\\": "database/",
+            "queryBuilder\\": "queryBuilder/",
+            "security\\": "security/"
+        }
     },
     "require": {
     	"php": "^7.0"
