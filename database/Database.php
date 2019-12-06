@@ -3,7 +3,6 @@
 
 namespace database;
 
-use database\Settings;
 use PDO;
 
 class Database {
