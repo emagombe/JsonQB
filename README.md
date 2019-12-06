@@ -20,14 +20,17 @@ require_once 'JsonQB/autoload.php';
 
 ## Database settings
 
-Setput your database connetion settings on **JsonQB/app.conf** file
-```script
-DATABASE=your_database
-HOST=your_host
-PORT=3306
-USERNAME=your_username
-PASSWORD=your_password
-CHARSET=utf8
+```php
+use queryBuilder\JsonQB as JQB;
+
+JQB::connect([
+	'database' => '',	# Database name
+	'host' => '',		# Host name
+	'port' => '',		# Connection port
+	'username' => '',	# Username
+	'password' => '',	# Password
+	'charset' => '',	# Charset
+]);
 ```
 
 ## Generating queries

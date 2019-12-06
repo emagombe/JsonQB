@@ -3,6 +3,15 @@
 require '../autoload.php';
 
 
+JQB::connect([
+	'database' => '',
+	'host' => '',
+	'port' => '',
+	'username' => '',
+	'password' => '',
+	'charset' => '',
+]);
+
 
 // $qb = JsonQB::Insert('user', [
 // 	'value' => [

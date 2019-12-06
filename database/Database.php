@@ -6,15 +6,16 @@ namespace database;
 use database\Settings;
 use PDO;
 
-class Database
-{
+class Database {
 	
-	function __construct() {
-		return $this;
+	public static $connection_object = [];
+
+	public static function get_connection_object($connection_object) {
+		self::$connection_object = $connection_object;
 	}
 
 	public function conn() {
-		$config = $this->read_conf();
+		$config = (object) self::$connection_object;
 
 		$host = $config->host;
 		$database = $config->database;
@@ -28,23 +29,5 @@ class Database
 		} catch(Exception $ex) {
 			throw new Exception($ex->getMessage());
 		}
-	}
-
-	private function read_conf() {
-		$content = file_get_contents(dirname(__FILE__)."/../app.conf");
-		$content = explode("\n", $content);
-		$config = [];
-		foreach($content as $item) {
-			$items = explode("=", $item);
-			$config[strtolower($items[0])] = $items[1];
-		}
-		$settings = new Settings();
-		$settings->database = str_replace("\r", '', $config['database']);
-		$settings->username = str_replace("\r", '', $config['username']);
-		$settings->password = str_replace("\r", '', $config['password']);
-		$settings->charset = str_replace("\r", '', $config['charset']);
-		$settings->host = str_replace("\r", '', $config['host']);
-		$settings->port = str_replace("\r", '', $config['port']);
-		return $settings;
 	}
 }

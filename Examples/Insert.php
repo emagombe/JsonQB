@@ -4,6 +4,15 @@ require '../autoload.php';
 
 use queryBuilder\JsonQB as JQB;
 
+JQB::connect([
+	'database' => '',
+	'host' => '',
+	'port' => '',
+	'username' => '',
+	'password' => '',
+	'charset' => '',
+]);
+
 $sql = JQB::Insert('user',
 	array(
 		"value" => array(

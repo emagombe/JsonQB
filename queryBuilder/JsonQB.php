@@ -2,6 +2,7 @@
 
 namespace queryBuilder;
 
+use database\Database;
 use security\Security;
 use queryBuilder\query\Insert;
 use queryBuilder\query\Update;
@@ -10,6 +11,10 @@ use queryBuilder\query\Select;
 use queryBuilder\query\Truncate;
 
 class JsonQB {
+
+	public static function connect($connection_object) {
+		Database::get_connection_object($connection_object);
+	}
 
 	public static function Insert($table, $request) {
 		return new Insert($table, $request);

@@ -1,12 +1,7 @@
-<?php 
+<?php
 
-require_once 'database/Settings.php';
-require_once 'database/Database.php';
-require_once 'security/Security.php';
-require_once 'queryBuilder/query/Where.php';
-require_once 'queryBuilder/query/Insert.php';
-require_once 'queryBuilder/query/Update.php';
-require_once 'queryBuilder/query/Delete.php';
-require_once 'queryBuilder/query/Select.php';
-require_once 'queryBuilder/query/Truncate.php';
-require_once 'queryBuilder/JsonQB.php';
+require_once __DIR__.'/vendor/autoload.php';
+
+spl_autoload_register(function ($class_name) {
+    require_once __DIR__.'/'.$class_name .'.php';
+});
