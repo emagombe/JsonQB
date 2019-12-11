@@ -1,6 +1,6 @@
 <?php
 
-require '../autoload.php';
+require __DIR__.'/../autoload.php';
 
 use queryBuilder\JsonQB as JQB;
 
@@ -28,7 +28,7 @@ $sql = JQB::Select(array(
 			"between" => array(1, 7) 
 		)
 	)
-))->sql();
+))->sql;
 
 print_r($sql);
 
@@ -50,7 +50,7 @@ $sql = JQB::Select(array(
 		),
 	),
 	"order" => array("by" => "user.id", "order" => "asc"),
-))->sql();
+))->sql;
 
 print_r($sql);
 
@@ -70,7 +70,7 @@ $sql = JQB::Select(array(
 		),
 	),
 	"group" => array('by' => 'user.id'),
-))->sql();
+))->sql;
 
 print_r($sql);
 
@@ -122,7 +122,7 @@ $sql = JQB::Select(array(
 			)
 		),
 	)
-))->sql();
+))->sql;
 
 print_r($sql);
 
@@ -146,10 +146,10 @@ $sql = JQB::Select(array(
 			'in' => JQB::Select(array(
 				'columns' => ['user.id'],
 				'from' => ['user']
-			))->sql(),
+			))->sql,
 		)
 	),
 	"group" => array('by' => 'user.id'),
-))->sql();
+))->sql;
 
 print_r($sql);

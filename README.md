@@ -47,7 +47,7 @@ $sql = JQB::Insert('user',
 			"email" => "example@example.net"
 		)
 	)
-)->sql();
+)->sql;
 
 print_r($sql);
 ```
@@ -66,13 +66,27 @@ INSERT INTO user(username, password, email) VALUES ('JsonQB','123','example@exam
 On myfile.php
 
 ```php
-$sql = JQB::Insert('user', $_POST)->sql();
+$sql = JQB::Insert('user', $_POST)->sql;
 
 print_r($sql);
 ```
 Returns
 ```SQL
 INSERT INTO user(email, password) VALUES ('example@example.net', '123');
+```
+
+#### Executing query
+
+To execute the SQL query you only need to call the **execute** function from the JQB::Insert function response
+
+```php
+$result = JQB::Insert('user', $_POST)->execute();
+
+if($result->success) { echo "success"; } else { echo "failure" }
+
+print_r($result->sql);		# Returns the executed sql query
+print_r($result->id);		# Returns the last insert id
+print_r($result->success);	# Returns 1 if success
 ```
 
 ### Update
@@ -88,13 +102,35 @@ $sql = JQB::Update('user', [
 			'columns' => array('user.id' => 1)
 		)
 	)
-])->sql();
+])->sql;
 
 print_r($sql);
 ```
 Returns
 ```SQL
 UPDATE user SET username = 'example' WHERE id = '1';
+```
+
+#### Executing query
+
+To execute the SQL query you only need to call the **execute** function from the JQB::Update function response
+
+```php
+$result = JQB::Update('user', [
+	'value' => array(
+		'username' => 'example'
+	), 
+	'where' => array(
+		array(
+			'columns' => array('user.id' => 1)
+		)
+	)
+])->execute();
+
+if($result->success) { echo "success"; } else { echo "failure" }
+
+print_r($result->sql);		# Returns the executed sql query
+print_r($result->success);	# Returns 1 if success
 ```
 
 ### Delete
@@ -111,7 +147,7 @@ $sql = JQB::Delete('user', [
 			'between' => array(1, 7)
 		)
 	)
-])->sql();
+])->sql;
 
 print_r($sql);
 ```
@@ -120,17 +156,53 @@ Returns
 DELETE FROM user WHERE id = '1' AND user.id BETWEEN 1 AND 7;
 ```
 
+#### Executing query
+
+To execute the SQL query you only need to call the **execute** function from the JQB::Delete function response
+
+```php
+$result = JQB::Delete('user', [
+	'where' => array(
+		array(
+			'columns' => array('id' => 1)
+		),
+		array(
+			'column' => 'user.id',
+			'between' => array(1, 7)
+		)
+	)
+])->execute();
+
+if($result->success) { echo "success"; } else { echo "failure" }
+
+print_r($result->sql);		# Returns the executed sql query
+print_r($result->success);	# Returns 1 if success
+```
+
 ### Truncate
 ```php
 use queryBuilder\JsonQB as JQB;
 
-$sql = JQB::Truncate('user')->sql();
+$sql = JQB::Truncate('user')->sql;
 
 print_r($sql);
 ```
 Returns
 ```SQL
 TRUNCATE user;
+```
+
+#### Executing query
+
+To execute the SQL query you only need to call the **execute** function from the JQB::Truncate function response
+
+```php
+$result = JQB::('user')->execute();
+
+if($result->success) { echo "success"; } else { echo "failure" }
+
+print_r($result->sql);		# Returns the executed sql query
+print_r($result->success);	# Returns 1 if success
 ```
 
 ### Select
@@ -149,7 +221,7 @@ $sql = JQB::Select(array(
 			)
 		),
 	)
-))->sql();
+))->sql;
 
 print_r($sql);
 ```
@@ -157,6 +229,32 @@ Returns
 ```SQL
 SELECT user.*, user_type.* FROM user, user_type WHERE user.id = '1';
 ```
+
+#### Executing query
+
+To execute the SQL query you only need to call the **execute** function from the JQB::Truncate function response
+
+```php
+$result = JQB::Select(array(
+	"columns" => array("user.*", "user_type.*"),
+	"from" => array("user", "user_type"),
+	"where" => array(
+		array(
+			"columns" => array(
+				"user.id" => "1"
+			)
+		),
+	)
+))->execute();
+
+if($result->success) { echo "success"; } else { echo "failure" }
+
+print_r($result->sql);		# Returns the executed sql query
+print_r($result->data);		# Returns array of data result
+print_r($result->json);		# Returns data result encoded to json string
+print_r($result->object);	# Returns data in object Ex: from $data['id'] to $data->id
+```
+
 
 #### Select between
 ```php
@@ -176,7 +274,7 @@ $sql = JQB::Select(array(
 			"between" => array(1, 7) # Between 1 and 7
 		)
 	)
-))->sql();
+))->sql;
 
 print_r($sql);
 ```
@@ -200,7 +298,7 @@ $sql = JQB::Select(array(
 			)
 		),
 	)
-))->sql();
+))->sql;
 
 print_r($sql);
 ```
@@ -225,7 +323,7 @@ $sql = JQB::Select(array(
 		),
 	),
 	"order" => array("by" => "user.id", "order" => "asc"),
-))->sql();
+))->sql;
 
 print_r($sql);
 ```
@@ -250,7 +348,7 @@ $sql = JQB::Select(array(
 		),
 	),
 	"group" => array('by' => 'user.id'),
-))->sql();
+))->sql;
 
 print_r($sql);
 ```
@@ -297,7 +395,7 @@ $sql = JQB::Select(array(
 			)
 		),
 	)
-))->sql();
+))->sql;
 
 print_r($sql);
 ```
@@ -325,15 +423,58 @@ $sql = JQB::Select(array(
 			'in' => JQB::Select(array(
 				'columns' => ['user.id'],
 				'from' => ['user']
-			))->sql(),
+			))->sql,
 		)
 	),
 	"group" => array('by' => 'user.id'),
-))->sql();
+))->sql;
 
 print_r($sql);
 ```
 Returns
 ```SQL
 SELECT * FROM user, user_type WHERE user.id like '1' AND user.id IN (SELECT user.id FROM user) GROUP BY user.id
+```
+
+
+## Transaction
+
+JsonQB also supports Transaction
+
+```php
+use queryBuilder\JsonQB as JQB;
+
+JQB::connect([
+	'database' => '',	# Database name
+	'host' => '',		# Host name
+	'port' => '',		# Connection port
+	'username' => '',	# Username
+	'password' => '',	# Password
+	'charset' => '',	# Charset
+]);
+
+JQB::begin();		# Creates a new transaction
+
+/* Execunting query */
+$result = JQB::Insert('user', $_POST)->execute();
+
+JQB::commit();		# Commits the created transaction
+
+if($result->success) { echo "success"; } else { echo "failure" }
+
+```
+
+### Rollback
+
+To roll back the transaction you need to call the JQB::rollback() function
+
+```php
+JQB::begin();
+
+/* Execunting query */
+$result = JQB::Insert('user', $_POST)->execute();
+
+JQB::rollback();
+
+if($result->success) { echo "success"; } else { echo "failure" }
 ```

@@ -13,7 +13,7 @@ class Database {
 		self::$connection_object = $connection_object;
 	}
 
-	public function conn() {
+	public static function conn() {
 		$config = (object) self::$connection_object;
 
 		$host = $config->host;
