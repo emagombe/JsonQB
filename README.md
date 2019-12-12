@@ -197,7 +197,7 @@ TRUNCATE user;
 To execute the SQL query you only need to call the **execute** function from the JQB::Truncate function response
 
 ```php
-$result = JQB::('user')->execute();
+$result = JQB::Truncate('user')->execute();
 
 if($result->success) { echo "success"; } else { echo "failure" }
 
