@@ -99,9 +99,9 @@ class QueryProcessor extends Database {
 		$result->sql = $sql;
 		$result->data = $data;
 		$result->json = json_encode($data);
-		$result->object = (object) $data;
-		$result->first = (object) $data[0];
-		$result->last = (object) $data[count($data) - 1];
+		$result->object = (count($data) > 0) ? (object) $data : [];
+		$result->first = (count($data) > 0) ? (object) $data[0] : [];
+		$result->last = (count($data) > 0) ? (object) $data[count($data) - 1] : [];
 		$result->count = count($data);
 		
 		return $result;
